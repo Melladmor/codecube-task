@@ -1,8 +1,8 @@
 import { ChangeEventHandler, Ref } from "react";
 
 export type InputT = {
-  id: string;
-  name: string;
+  id?: string;
+  name?: string;
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
   label?: string;

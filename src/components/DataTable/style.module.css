@@ -1,4 +1,4 @@
-/* Heade Cell */
+/* Header Cell */
 .header_content {
   display: flex;
   align-items: center;
@@ -6,7 +6,7 @@
 }
 
 .sort_icon {
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 12px;
 }
 
@@ -28,12 +28,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border-top: 1px solid #e0e0e0;
-  background: #fafafa;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
 }
 
 .pagination_info {
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 14px;
 }
 
@@ -45,8 +45,9 @@
 
 .pagination_controls button {
   padding: 6px 12px;
-  border: 1px solid #ddd;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
@@ -54,8 +55,9 @@
 }
 
 .pagination_controls button:hover:not(:disabled) {
-  background: #f5f5f5;
-  border-color: #999;
+  background: var(--color-primary-start);
+  color: #fff;
+  border-color: var(--color-primary-end);
 }
 
 .pagination_controls button:disabled {
@@ -66,37 +68,43 @@
 .page_number {
   padding: 0 12px;
   font-size: 14px;
-  color: #333;
+  color: var(--color-text);
 }
 
 /* Data Table */
 .data_grid_container {
-  background: white;
+  background: var(--color-surface);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  box-shadow: 0 2px 8px var(--shadow-primary);
+  padding: 1rem;
 }
 
 .data_grid_wrapper {
+  position: relative;
   overflow-x: auto;
+}
+
+.searchField {
+  margin-bottom: 1rem;
 }
 
 .data_grid {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  color: var(--color-text);
 }
 
 .data_grid thead {
-  background: #f5f5f5;
-  border-bottom: 2px solid #e0e0e0;
+  background: var(--color-bg);
+  border-bottom: 2px solid var(--color-border-light);
 }
 
 .data_grid th {
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
   user-select: none;
 }
 
@@ -106,12 +114,13 @@
 }
 
 .data_grid th.sortable:hover {
-  background: #eeeeee;
+  background: var(--color-primary-start);
+  color: #fff;
 }
 
 .data_grid td {
   padding: 12px 16px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .data_grid tbody tr {
@@ -120,9 +129,92 @@
 }
 
 .data_grid tbody tr:hover {
-  background: #f9f9f9;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .data_grid tbody tr.selected {
-  background: #e3f2fd;
+  background: var(--color-primary-start);
+  color: #fff;
+}
+
+/* Skeleton Loading */
+.skeleton_row {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton_text {
+  height: 16px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+.skeleton_checkbox {
+  width: 16px;
+  height: 16px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  margin: 0 auto;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Error State */
+.error_cell {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.error_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.error_message {
+  color: #d32f2f;
+  font-size: 14px;
+}
+
+.retry_button {
+  margin-top: 8px;
+  padding: 8px 14px;
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.retry_button:hover {
+  background: #b71c1c;
+}
+
+.empty_cell {
+  padding: 40px 20px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
 }

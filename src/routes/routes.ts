@@ -3,7 +3,7 @@ import type { RoutesI } from "./type";
 import { lazy } from "react";
 
 const Login = lazy(() => import("../pages/Auth/Login"));
-const User = lazy(() => import("../pages/User/User"));
+const Products = lazy(() => import("../pages/Products/Products"));
 
 export const routes: RoutesI[] = [
   {
@@ -15,8 +15,8 @@ export const routes: RoutesI[] = [
   },
   {
     id: 2,
-    path: "/user",
-    title: "User",
-    element: User,
+    path: "/products",
+    title: "Products",
+    element: Products,
   },
 ];

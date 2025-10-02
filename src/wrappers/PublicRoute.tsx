@@ -6,7 +6,7 @@ const isAuthenticated = () => {
 
 export const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   if (isAuthenticated()) {
-    return <Navigate to="/user" replace />;
+    return <Navigate to="/products" replace />;
   }
   return children;
 };

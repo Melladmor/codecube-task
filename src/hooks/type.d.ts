@@ -12,3 +12,10 @@ export type UseAuthResult<T> = {
   data: T | null;
   getData: (url: string) => Promise<void>;
 };
+
+interface UseFetchResult<T> {
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+  refetch: () => Promise<void>;
+}

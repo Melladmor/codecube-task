@@ -7,9 +7,11 @@ export interface Column<T = any> {
 }
 
 export interface DataGridProps<T = any> {
-  rows: T[];
+  rows?: T[];
   columns: Column<T>[];
   pageSize?: number;
+  page?: number;
+  url?: string;
   checkboxSelection?: boolean;
   onRowClick?: (row: T) => void;
   onSelectionChange?: (selectedRows: T[]) => void;
@@ -37,4 +39,20 @@ export interface DataRowProps<T> {
   checkboxSelection: boolean;
   onSelect: (id: number | string) => void;
   onClick?: (row: T) => void;
+}
+
+export interface SkeletonRowProps<T = any> {
+  columns: Column<T>[];
+  checkboxSelection: boolean;
+  rowCount?: number;
+}
+
+export interface ErrorDataProps {
+  colSpan: number;
+  onRetry?: () => void;
+}
+
+export interface EmptyDataProps {
+  colSpan: number;
+  message?: string;
 }

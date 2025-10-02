@@ -4,25 +4,48 @@ import { HeaderCell } from "./HeaderCell";
 import { DataRow } from "./DataRow";
 import style from "./style.module.css";
 import { Pagination } from "./Pagination";
+import { useFetch } from "../../hooks/userFetch";
+import { SkeletonRow } from "./SkeletonRow";
+import { ErrorData } from "./ErrorData";
+import { EmptyData } from "./EmptyData";
+import FieldRender from "../inputs/FieldRender";
+import { useDebouncedInput } from "../../hooks/useDebouncedInput";
+
 function DataTable<T extends { id: number | string }>({
-  rows,
+  rows = [],
   columns,
   pageSize = 5,
+  page,
+  url,
   checkboxSelection = false,
   onRowClick,
   onSelectionChange,
 }: DataGridProps<T>) {
+  const { value, debouncedValue, handleChange } = useDebouncedInput("", 500);
+  console.log({ debouncedValue });
+  const { data, loading, error, refetch } = useFetch<T[]>(
+    `${url}?search=${debouncedValue}`
+  );
+  const tableData: T[] = data && data.length !== 0 ? data : rows;
+
   const [sortField, setSortField] = useState<keyof T | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(page ? page : 1);
   const [selectedRows, setSelectedRows] = useState<Set<number | string>>(
     new Set()
   );
 
-  const sortedRows = useMemo(() => {
-    if (!sortField) return rows;
+  const totalPages = Math.ceil(tableData?.length / pageSize);
 
-    return [...rows].sort((a, b) => {
+  const currentPageRows = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return tableData.slice(start, start + pageSize);
+  }, [tableData, currentPage, pageSize]);
+
+  const sortedRows = useMemo(() => {
+    if (!sortField) return currentPageRows;
+
+    return [...currentPageRows].sort((a, b) => {
       const aVal = a[sortField];
       const bVal = b[sortField];
 
@@ -31,14 +54,9 @@ function DataTable<T extends { id: number | string }>({
       const comparison = aVal > bVal ? 1 : -1;
       return sortDirection === "asc" ? comparison : -comparison;
     });
-  }, [rows, sortField, sortDirection]);
+  }, [currentPageRows, sortField, sortDirection]);
 
-  const paginatedRows = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return sortedRows.slice(start, start + pageSize);
-  }, [sortedRows, currentPage, pageSize]);
-
-  const totalPages = Math.ceil(rows.length / pageSize);
+  const paginatedRows = sortedRows;
 
   const handleSort = (field: keyof T, sortable?: boolean) => {
     if (sortable === false) return;
@@ -69,7 +87,7 @@ function DataTable<T extends { id: number | string }>({
     setSelectedRows(newSelected);
 
     if (onSelectionChange) {
-      const selected = rows.filter((row) => newSelected.has(row.id));
+      const selected = tableData?.filter((row) => newSelected.has(row.id));
       onSelectionChange(selected);
     }
   };
@@ -80,6 +98,14 @@ function DataTable<T extends { id: number | string }>({
 
   return (
     <div className={style.data_grid_container}>
+      <div className={style.searchField}>
+        <FieldRender
+          fieldType="text"
+          value={value}
+          onChange={handleChange}
+          placeholder="Search..."
+        />
+      </div>
       <div className={style.data_grid_wrapper}>
         <table className={style.data_grid}>
           <thead>
@@ -105,17 +131,32 @@ function DataTable<T extends { id: number | string }>({
             </tr>
           </thead>
           <tbody>
-            {paginatedRows.map((row) => (
-              <DataRow
-                key={row.id}
-                row={row}
+            {loading ? (
+              <SkeletonRow
                 columns={columns}
-                isSelected={selectedRows.has(row.id)}
                 checkboxSelection={checkboxSelection}
-                onSelect={handleSelectRow}
-                onClick={onRowClick}
+                rowCount={pageSize}
               />
-            ))}
+            ) : error ? (
+              <ErrorData colSpan={columns?.length} onRetry={refetch} />
+            ) : paginatedRows.length === 0 ? (
+              <EmptyData
+                colSpan={columns?.length}
+                message="No data available"
+              />
+            ) : (
+              paginatedRows.map((row) => (
+                <DataRow
+                  key={row.id}
+                  row={row}
+                  columns={columns}
+                  isSelected={selectedRows.has(row.id)}
+                  checkboxSelection={checkboxSelection}
+                  onSelect={handleSelectRow}
+                  onClick={onRowClick}
+                />
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -124,7 +165,7 @@ function DataTable<T extends { id: number | string }>({
         currentPage={currentPage}
         totalPages={totalPages}
         pageSize={pageSize}
-        totalItems={rows.length}
+        totalItems={tableData?.length}
         onPageChange={setCurrentPage}
       />
     </div>
