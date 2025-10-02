@@ -95,39 +95,7 @@ main {
   color: white;
 }
 
-.input-group {
-  margin-bottom: 1.5rem;
-  position: relative;
-}
 
-.input-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #b0b0b0;
-}
-
-.input-field {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.input-field:focus {
-  outline: none;
-  border-color: #6e45e2;
-  background: rgba(110, 69, 226, 0.1);
-  box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
-}
-
-.input-field::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
 
 .submit-btn {
   width: 100%;
