@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { getLocalStorageItem, removeLocalStorageItem } from "../../utils";
 import style from "./style.module.css";
 import { useToaster } from "../../context/ToasterProvider";
+import Button from "../Buttons/Button";
 const Header = () => {
   const token = getLocalStorageItem<string>("token");
   const navigate = useNavigate();
@@ -20,9 +21,9 @@ const Header = () => {
         <span className={style.logo_text}>Code Cube</span>
       </div>
       {token && (
-        <button className={style.logout_btn} onClick={logout}>
+        <Button type="button" onClick={logout} className={style.logout_btn}>
           Logout
-        </button>
+        </Button>
       )}
     </header>
   );

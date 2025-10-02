@@ -16,3 +16,12 @@
   font-weight: 600;
   color: white;
 }
+.inputs_conatiner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form_button {
+  margin-top: 1rem !important;
+}

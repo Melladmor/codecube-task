@@ -68,7 +68,7 @@ const LoginComponent = () => {
         setLocalStorageItem("token", result?.token);
         setLocalStorageItem("user", result);
         toaster("Login Success", "success");
-        navigate("/user", { replace: true });
+        navigate("/products", { replace: true });
       } else {
         toaster("Invalid credentials", "error");
       }
@@ -85,31 +85,32 @@ const LoginComponent = () => {
     <form className={style.login_container} onSubmit={handleSubmit}>
       <h1 className={style.login_title}>Welcome Back</h1>
 
-      <FieldRender
-        fieldType="text"
-        label="User Name"
-        placeholder="Enter User Name"
-        id="username"
-        name="username"
-        value={loginValues?.username}
-        onChange={handleOnchange}
-        error={errors?.username}
-      />
+      <div className={style.inputs_conatiner}>
+        <FieldRender
+          fieldType="text"
+          label="User Name"
+          placeholder="Enter User Name"
+          id="username"
+          name="username"
+          value={loginValues?.username}
+          onChange={handleOnchange}
+          error={errors?.username}
+        />
 
-      <FieldRender
-        fieldType="password"
-        label="Password"
-        placeholder="Enter Your Password"
-        id="password"
-        name="password"
-        value={loginValues?.password}
-        onChange={handleOnchange}
-        error={errors?.password}
-      />
-
-      <Button type="submit" disabled={loading}>
-        {loading ? <Spinner /> : "Login"}
-      </Button>
+        <FieldRender
+          fieldType="password"
+          label="Password"
+          placeholder="Enter Your Password"
+          id="password"
+          name="password"
+          value={loginValues?.password}
+          onChange={handleOnchange}
+          error={errors?.password}
+        />
+        <Button type="submit" disabled={loading} className={style.form_button}>
+          {loading ? <Spinner /> : "Login"}
+        </Button>
+      </div>
     </form>
   );
 };
