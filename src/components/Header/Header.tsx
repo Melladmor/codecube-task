@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { getToken, removeToken } from "../../utils";
+import { getLocalStorageItem, removeLocalStorageItem } from "../../utils";
 import style from "./style.module.css";
 const Header = () => {
-  const token = getToken();
+  const token = getLocalStorageItem<string>("token");
   const navigate = useNavigate();
 
   const logout = () => {
-    removeToken();
+    removeLocalStorageItem("token");
+    removeLocalStorageItem("user");
     navigate("/login", { replace: true });
   };
   return (

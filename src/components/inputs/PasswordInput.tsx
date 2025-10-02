@@ -21,7 +21,7 @@ const PasswordInput = forwardRef<HTMLInputElement, Props>(
     ref
   ) => {
     const [showPassword, setShowPassword] = useState<"text" | "password">(
-      "text"
+      "password"
     );
 
     const togglePassword = () =>
@@ -49,9 +49,9 @@ const PasswordInput = forwardRef<HTMLInputElement, Props>(
           />
           <div className={style.input_field_eye}>
             {showPassword === "text" ? (
-              <FaRegEyeSlash onClick={togglePassword} />
-            ) : (
               <FaRegEye onClick={togglePassword} />
+            ) : (
+              <FaRegEyeSlash onClick={togglePassword} />
             )}
           </div>
         </div>

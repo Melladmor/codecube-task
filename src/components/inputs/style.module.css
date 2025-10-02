@@ -33,8 +33,9 @@
   color: rgba(255, 255, 255, 0.3);
 }
 .error_input_field {
-  color: red;
-  font-weight: 500;
+  color: rgb(144, 15, 15);
+  font-weight: 400;
+  font-size: 12px;
   margin-top: 0.5rem;
 }
 .input_field_container {
