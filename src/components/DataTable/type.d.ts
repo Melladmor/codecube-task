@@ -15,6 +15,7 @@ export interface DataGridProps<T = any> {
   checkboxSelection?: boolean;
   onRowClick?: (row: T) => void;
   onSelectionChange?: (selectedRows: T[]) => void;
+  addAction?: () => void;
 }
 
 export interface HeaderCellProps<T> {

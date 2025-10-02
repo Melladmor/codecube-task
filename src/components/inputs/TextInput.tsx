@@ -20,7 +20,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
     ref
   ) => {
     return (
-      <div className={`${className} ${style.input_group}`}>
+      <div className={`${className ? className : ""} ${style.input_group}`}>
         {label && (
           <label htmlFor={id}>
             {label} {required && "*"}

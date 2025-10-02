@@ -84,8 +84,20 @@
   overflow-x: auto;
 }
 
-.searchField {
+.search_field_withAction {
   margin-bottom: 1rem;
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+.search_field {
+  margin-bottom: 1rem;
+}
+.search_field button {
+  width: 10% !important;
+}
+.search_field_input {
+  width: 90% !important;
 }
 
 .data_grid {

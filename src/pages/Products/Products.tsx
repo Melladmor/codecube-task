@@ -1,3 +1,4 @@
+import { Outlet, useNavigate } from "react-router-dom";
 import DataTable from "../../components/DataTable/DataTable";
 import type { Column } from "../../components/DataTable/type";
 interface Product {
@@ -12,6 +13,7 @@ interface Product {
 }
 
 const Products = () => {
+  const navigate = useNavigate();
   const column: Column<Product>[] = [
     { field: "id", headerName: "ID", width: 70, sortable: true },
     { field: "title", headerName: "Title", width: 200, sortable: true },
@@ -34,7 +36,13 @@ const Products = () => {
   ];
   return (
     <div>
-      <DataTable columns={column} url="products" pageSize={8} page={1} />
+      <DataTable
+        columns={column}
+        url="products"
+        pageSize={8}
+        page={1}
+        addAction={() => navigate("/products/add-product", { replace: true })}
+      />
     </div>
   );
 };

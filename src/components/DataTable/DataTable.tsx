@@ -10,6 +10,8 @@ import { ErrorData } from "./ErrorData";
 import { EmptyData } from "./EmptyData";
 import FieldRender from "../inputs/FieldRender";
 import { useDebouncedInput } from "../../hooks/useDebouncedInput";
+import Button from "../Buttons/Button";
+import { useNavigate } from "react-router-dom";
 
 function DataTable<T extends { id: number | string }>({
   rows = [],
@@ -20,9 +22,9 @@ function DataTable<T extends { id: number | string }>({
   checkboxSelection = false,
   onRowClick,
   onSelectionChange,
+  addAction,
 }: DataGridProps<T>) {
   const { value, debouncedValue, handleChange } = useDebouncedInput("", 500);
-  console.log({ debouncedValue });
   const { data, loading, error, refetch } = useFetch<T[]>(
     `${url}?search=${debouncedValue}`
   );
@@ -98,13 +100,22 @@ function DataTable<T extends { id: number | string }>({
 
   return (
     <div className={style.data_grid_container}>
-      <div className={style.searchField}>
+      <div
+        className={`${style.search_field} ${
+          addAction ? style.search_field_withAction : ""
+        }`}>
         <FieldRender
           fieldType="text"
           value={value}
           onChange={handleChange}
           placeholder="Search..."
+          className={addAction ? style.search_field_input : ""}
         />
+        {addAction && (
+          <Button type="button" onClick={addAction}>
+            Add +
+          </Button>
+        )}
       </div>
       <div className={style.data_grid_wrapper}>
         <table className={style.data_grid}>
