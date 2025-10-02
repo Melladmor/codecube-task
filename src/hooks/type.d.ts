@@ -3,6 +3,7 @@ export type UsePostResult<T> = {
   error: string | null;
   data: T | null;
   postData: (url: string, body: any, options?: RequestInit) => Promise<void>;
+  success: boolean;
 };
 
 export type UseAuthResult<T> = {

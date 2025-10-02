@@ -1,5 +1,11 @@
-import { useMemo, useState } from "react";
-import type { DataGridProps } from "./type";
+import {
+  useMemo,
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import type { DataGridProps, DataTableRef } from "./type";
 import { HeaderCell } from "./HeaderCell";
 import { DataRow } from "./DataRow";
 import style from "./style.module.css";
@@ -11,25 +17,30 @@ import { EmptyData } from "./EmptyData";
 import FieldRender from "../inputs/FieldRender";
 import { useDebouncedInput } from "../../hooks/useDebouncedInput";
 import Button from "../Buttons/Button";
-import { useNavigate } from "react-router-dom";
 
-function DataTable<T extends { id: number | string }>({
-  rows = [],
-  columns,
-  pageSize = 5,
-  page,
-  url,
-  checkboxSelection = false,
-  onRowClick,
-  onSelectionChange,
-  addAction,
-}: DataGridProps<T>) {
+function DataTableInner<T extends { id: number | string }>(
+  {
+    rows = [],
+    columns,
+    pageSize = 5,
+    page,
+    url,
+    checkboxSelection = false,
+    onRowClick,
+    onSelectionChange,
+    addAction,
+    onDelete,
+    onEdit,
+  }: DataGridProps<T>,
+  ref: React.Ref<DataTableRef>
+) {
   const { value, debouncedValue, handleChange } = useDebouncedInput("", 500);
+
   const { data, loading, error, refetch } = useFetch<T[]>(
     `${url}?search=${debouncedValue}`
   );
-  const tableData: T[] = data && data.length !== 0 ? data : rows;
 
+  const tableData: T[] = data && data.length !== 0 ? data : rows;
   const [sortField, setSortField] = useState<keyof T | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(page ? page : 1);
@@ -98,6 +109,14 @@ function DataTable<T extends { id: number | string }>({
     paginatedRows.length > 0 &&
     paginatedRows.every((row) => selectedRows.has(row.id));
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      refetch,
+    }),
+    [refetch]
+  );
+
   return (
     <div className={style.data_grid_container}>
       <div
@@ -137,8 +156,12 @@ function DataTable<T extends { id: number | string }>({
                   sortField={sortField}
                   sortDirection={sortDirection}
                   onSort={handleSort}
+                  hasActions={!!(onDelete || onEdit)}
                 />
               ))}
+              {!!(onDelete || onEdit) && (
+                <th className={style.actions_cell}>Actions</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -165,6 +188,8 @@ function DataTable<T extends { id: number | string }>({
                   checkboxSelection={checkboxSelection}
                   onSelect={handleSelectRow}
                   onClick={onRowClick}
+                  onDelete={onDelete}
+                  onEdit={onEdit}
                 />
               ))
             )}
@@ -182,5 +207,11 @@ function DataTable<T extends { id: number | string }>({
     </div>
   );
 }
+
+const DataTable = forwardRef(DataTableInner) as <
+  T extends { id: number | string }
+>(
+  props: DataGridProps<T> & { ref?: React.Ref<DataTableRef> }
+) => ReturnType<typeof DataTableInner>;
 
 export default DataTable;

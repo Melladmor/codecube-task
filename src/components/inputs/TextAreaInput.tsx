@@ -1,9 +1,13 @@
 import { forwardRef } from "react";
-import type { InputT } from "./type";
+import type { TextAreaT } from "./type";
 import style from "./style.module.css";
-type Props = InputT;
 
-const TextInput = forwardRef<HTMLInputElement, Props>(
+type Props = TextAreaT & {
+  rows?: number;
+  cols?: number;
+};
+
+const TextAreaInput = forwardRef<HTMLTextAreaElement, Props>(
   (
     {
       id,
@@ -16,7 +20,8 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
       label,
       placeholder,
       required,
-      type,
+      rows = 4,
+      cols,
     },
     ref
   ) => {
@@ -27,16 +32,17 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
             {label} {required && "*"}
           </label>
         )}
-        <input
+        <textarea
           id={id}
           name={name}
-          type={type ? type : "text"}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
           disabled={disabled}
           ref={ref}
           required={required}
+          rows={rows}
+          cols={cols}
           className={style.input_field}
         />
         {error && <span className={style.error_input_field}>{error}</span>}
@@ -45,4 +51,4 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
   }
 );
 
-export default TextInput;
+export default TextAreaInput;

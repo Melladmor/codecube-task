@@ -28,7 +28,7 @@ export const useFetch = <T,>(
     } finally {
       setLoading(false);
     }
-  }, [url, options]);
+  }, [url]);
 
   useEffect(() => {
     fetchData();

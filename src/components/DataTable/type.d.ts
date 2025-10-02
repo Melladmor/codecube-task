@@ -16,6 +16,12 @@ export interface DataGridProps<T = any> {
   onRowClick?: (row: T) => void;
   onSelectionChange?: (selectedRows: T[]) => void;
   addAction?: () => void;
+  onEdit?: (row: T) => void;
+  onDelete?: (row: T) => void;
+}
+
+export interface DataTableRef {
+  refetch: () => void | Promise<void>;
 }
 
 export interface HeaderCellProps<T> {
@@ -23,6 +29,7 @@ export interface HeaderCellProps<T> {
   sortField: keyof T | null;
   sortDirection: "asc" | "desc";
   onSort: (field: keyof T, sortable?: boolean) => void;
+  hasActions?: boolean;
 }
 
 export interface PaginationProps {
@@ -40,6 +47,8 @@ export interface DataRowProps<T> {
   checkboxSelection: boolean;
   onSelect: (id: number | string) => void;
   onClick?: (row: T) => void;
+  onEdit?: (row: T) => void;
+  onDelete?: (row: T) => void;
 }
 
 export interface SkeletonRowProps<T = any> {
