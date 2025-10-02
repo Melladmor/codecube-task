@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { getLocalStorageItem, removeLocalStorageItem } from "../../utils";
 import style from "./style.module.css";
+import { useToaster } from "../../context/ToasterProvider";
 const Header = () => {
   const token = getLocalStorageItem<string>("token");
   const navigate = useNavigate();
 
+  const toaster = useToaster();
   const logout = () => {
     removeLocalStorageItem("token");
     removeLocalStorageItem("user");
+    toaster("Logout Success", "success");
     navigate("/login", { replace: true });
   };
   return (

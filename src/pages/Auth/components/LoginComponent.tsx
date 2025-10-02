@@ -10,6 +10,8 @@ import {
 import { useAuth } from "../../../hooks/useAuth";
 import type { UserT } from "./type";
 import { useNavigate } from "react-router-dom";
+import { useToaster } from "../../../context/ToasterProvider";
+import Spinner from "../../../components/Spinner/Spinner";
 type LoginVaule = {
   username: string;
   password: string;
@@ -18,8 +20,8 @@ type LoginVaule = {
 type LoginErrors = { username?: string; password?: string };
 
 const LoginComponent = () => {
-  const { loading, success, data, getData } = useAuth<UserT[]>();
-
+  const { loading, success, data, error, getData } = useAuth<UserT[]>();
+  const toaster = useToaster();
   const navigate = useNavigate();
   const [loginValues, setLoginValues] = useState<LoginVaule>({
     username: "",
@@ -62,23 +64,22 @@ const LoginComponent = () => {
           user.username === loginValues.username &&
           user.password === loginValues.password
       );
-      console.log(data);
       if (success && result) {
         setLocalStorageItem("token", result?.token);
         setLocalStorageItem("user", result);
-
+        toaster("Login Success", "success");
         navigate("/user", { replace: true });
       } else {
-        console.log("Invalid credentials");
+        toaster("Invalid credentials", "error");
       }
     }
   };
 
   useMemo(() => {
-    if (data) {
+    if (data && success) {
       handleAuthRedirection();
     }
-  }, [data]);
+  }, [data, success, error]);
 
   return (
     <form className={style.login_container} onSubmit={handleSubmit}>
@@ -106,7 +107,9 @@ const LoginComponent = () => {
         error={errors?.password}
       />
 
-      <Button type="submit">Login</Button>
+      <Button type="submit" disabled={loading}>
+        {loading ? <Spinner /> : "Login"}
+      </Button>
     </form>
   );
 };
