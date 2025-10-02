@@ -1,0 +1,128 @@
+/* Heade Cell */
+.header_content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort_icon {
+  color: #999;
+  font-size: 12px;
+}
+
+/* Data Row */
+.checkbox_cell {
+  width: 48px;
+  text-align: center;
+}
+
+.checkbox_cell input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid #e0e0e0;
+  background: #fafafa;
+}
+
+.pagination_info {
+  color: #666;
+  font-size: 14px;
+}
+
+.pagination_controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination_controls button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.pagination_controls button:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #999;
+}
+
+.pagination_controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page_number {
+  padding: 0 12px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Data Table */
+.data_grid_container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.data_grid_wrapper {
+  overflow-x: auto;
+}
+
+.data_grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.data_grid thead {
+  background: #f5f5f5;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.data_grid th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  user-select: none;
+}
+
+.data_grid th.sortable {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.data_grid th.sortable:hover {
+  background: #eeeeee;
+}
+
+.data_grid td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.data_grid tbody tr {
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.data_grid tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.data_grid tbody tr.selected {
+  background: #e3f2fd;
+}
