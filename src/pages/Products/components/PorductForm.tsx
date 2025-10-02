@@ -1,10 +1,4 @@
-import {
-  useState,
-  forwardRef,
-  useImperativeHandle,
-  useMemo,
-  useEffect,
-} from "react";
+import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
 import Button from "../../../components/Buttons/Button";
 import FieldRender from "../../../components/inputs/FieldRender";
 import type { Product, ProductFormProps, ProductFormRef } from "../type";
@@ -24,6 +18,8 @@ const ProductForm = forwardRef<ProductFormRef, ProductFormProps>(
       updatedAt: initialValues?.updatedAt || "",
     });
 
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
     const handleChange = (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -32,10 +28,27 @@ const ProductForm = forwardRef<ProductFormRef, ProductFormProps>(
         ...prev,
         [name]: name === "price" || name === "stock" ? Number(value) : value,
       }));
+      setErrors((prev) => ({ ...prev, [name]: "" })); // امسح الخطأ عند التغيير
+    };
+
+    const validate = (): boolean => {
+      const newErrors: Record<string, string> = {};
+
+      if (!values.title.trim()) newErrors.title = "Title is required";
+      if (!values.description.trim())
+        newErrors.description = "Description is required";
+      if (!values.brand.trim()) newErrors.brand = "Brand is required";
+
+      if (values.price < 1) newErrors.price = "Price must be at least 1";
+      if (values.stock < 1) newErrors.stock = "Stock must be at least 1";
+
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
+      if (!validate()) return;
       onSubmit(values);
     };
 
@@ -51,16 +64,16 @@ const ProductForm = forwardRef<ProductFormRef, ProductFormProps>(
           createdAt: new Date().toISOString(),
           updatedAt: "",
         });
+        setErrors({});
       },
     }));
+
     useEffect(() => {
-      if (
-        initialValues &&
-        JSON.stringify(initialValues) !== JSON.stringify(values)
-      ) {
+      if (initialValues && initialValues?.id) {
         setValues(initialValues);
       }
     }, [initialValues]);
+
     return (
       <form className={style.add_product_form} onSubmit={handleSubmit}>
         <FieldRender
@@ -69,6 +82,7 @@ const ProductForm = forwardRef<ProductFormRef, ProductFormProps>(
           name="title"
           value={values.title}
           onChange={handleChange}
+          error={errors.title}
         />
 
         <FieldRender
@@ -77,22 +91,25 @@ const ProductForm = forwardRef<ProductFormRef, ProductFormProps>(
           name="description"
           value={values.description}
           onChange={handleChange}
+          error={errors.description}
         />
 
         <FieldRender
-          fieldType="text"
+          fieldType="number"
           label="Price"
           name="price"
-          value={String(values.price)}
+          value={values.price}
           onChange={handleChange}
+          error={errors.price}
         />
 
         <FieldRender
-          fieldType="text"
+          fieldType="number"
           label="Stock"
           name="stock"
-          value={String(values.stock)}
+          value={values.stock}
           onChange={handleChange}
+          error={errors.stock}
         />
 
         <FieldRender
@@ -101,6 +118,7 @@ const ProductForm = forwardRef<ProductFormRef, ProductFormProps>(
           name="brand"
           value={values.brand}
           onChange={handleChange}
+          error={errors.brand}
         />
 
         <Button type="submit" disabled={loading}>

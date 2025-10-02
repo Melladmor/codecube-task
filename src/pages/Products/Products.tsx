@@ -3,21 +3,24 @@ import type { Column, DataTableRef } from "../../components/DataTable/type";
 import { useMemo, useRef, useState } from "react";
 import Drawer from "../../components/Drawer/Drawer";
 import type { Product, ProductFormRef } from "./type";
-import { usePost } from "../../hooks/usePost";
+import { useApi } from "../../hooks/usePost";
 import { useToaster } from "../../context/ToasterProvider";
 import ProductForm from "./components/PorductForm";
 import { getLocalStorageItem } from "../../utils";
 import type { UserT } from "../Auth/components/type";
+import DeleteModal from "../../components/Modal/DeleteModal";
 
 const Products = () => {
   const [isAddOpen, setIsAddOpen] = useState<boolean>(false);
   const [isEditOpen, setEditOpen] = useState<boolean>(false);
+  const [isDeletOpen, setIsDeleteOpen] = useState<boolean>(false);
   const [editValues, setEditValues] = useState<Product | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const formRef = useRef<ProductFormRef>(null);
   const tableRef = useRef<DataTableRef>(null);
   const user: UserT | null = getLocalStorageItem("user");
   const hasPermission: boolean = user?.role === "Editor" ? true : false;
-  const { data, error, loading, postData, success } = usePost();
+  const { error, loading, request, success } = useApi();
   const toaster = useToaster();
   const column: Column<Product>[] = [
     { field: "id", headerName: "ID", width: 70, sortable: true },
@@ -31,16 +34,22 @@ const Products = () => {
       headerName: "Created At",
       width: 150,
       sortable: true,
+      renderCell: (row) => {
+        return row?.value ? new Date(row.value).toLocaleString() : "-";
+      },
     },
     {
       field: "updatedAt",
       headerName: "Updated At",
       width: 150,
       sortable: true,
+      renderCell: (row) => {
+        return row?.value ? new Date(row.value).toLocaleString() : "-";
+      },
     },
   ];
   const handleSubmitAdd = async (values: Product | null) => {
-    await postData("products", values);
+    await request("products", values);
   };
 
   const handleSubmitEdit = async (values: Product | null) => {
@@ -50,7 +59,11 @@ const Products = () => {
       ...values,
       updatedAt: new Date().toISOString(),
     };
-    await postData(`products/${values.id}`, updatedProduct, { method: "PUT" });
+    await request(`products/${values.id}`, updatedProduct, { method: "PUT" });
+  };
+
+  const handleSubmitDelete = async () => {
+    await request(`products/${deleteId}`, undefined, { method: "DELETE" });
   };
 
   const handleEditData = (values: Product) => {
@@ -59,15 +72,17 @@ const Products = () => {
   };
 
   const handleDeleteData = async (id: string) => {
-    console.log(id);
+    setIsDeleteOpen(true);
+    setDeleteId(id);
   };
 
   useMemo(() => {
     if (success) {
-      toaster("Product saved successfully", "success");
+      toaster("Saved successfully", "success");
+      formRef?.current?.reset();
       setIsAddOpen(false);
       setEditOpen(false);
-      formRef?.current?.reset();
+      setIsDeleteOpen(false);
       tableRef?.current?.refetch();
     } else if (error) {
       toaster("Something went wrong", "error");
@@ -88,28 +103,41 @@ const Products = () => {
         }
         onEdit={hasPermission ? (row) => handleEditData(row) : undefined}
       />
-      <Drawer
-        isOpen={isAddOpen}
-        title="Add Product"
-        toggleDrawer={() => setIsAddOpen((prev: boolean) => !prev)}>
-        <ProductForm
-          onSubmit={handleSubmitAdd}
-          loading={loading}
-          ref={formRef}
-        />
-      </Drawer>
+      {isAddOpen && (
+        <Drawer
+          isOpen={isAddOpen}
+          title="Add Product"
+          toggleDrawer={() => setIsAddOpen((prev: boolean) => !prev)}>
+          <ProductForm
+            onSubmit={handleSubmitAdd}
+            loading={loading}
+            ref={formRef}
+          />
+        </Drawer>
+      )}
 
-      <Drawer
-        isOpen={isEditOpen}
-        title="Edit Product"
-        toggleDrawer={() => setEditOpen((prev: boolean) => !prev)}>
-        <ProductForm
-          onSubmit={handleSubmitEdit}
-          loading={loading}
-          ref={formRef}
-          initialValues={editValues}
-        />
-      </Drawer>
+      {isEditOpen && (
+        <Drawer
+          isOpen={isEditOpen}
+          title="Edit Product"
+          toggleDrawer={() => {
+            setEditOpen((prev: boolean) => !prev);
+            setEditValues(null);
+          }}>
+          <ProductForm
+            onSubmit={handleSubmitEdit}
+            loading={loading}
+            ref={formRef}
+            initialValues={editValues}
+          />
+        </Drawer>
+      )}
+
+      <DeleteModal
+        isOpen={isDeletOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={handleSubmitDelete}
+      />
     </div>
   );
 };

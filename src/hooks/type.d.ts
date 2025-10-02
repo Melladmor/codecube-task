@@ -1,8 +1,8 @@
-export type UsePostResult<T> = {
+export type UseApiResult<T> = {
   loading: boolean;
   error: string | null;
   data: T | null;
-  postData: (url: string, body: any, options?: RequestInit) => Promise<void>;
+  request: (url: string, body: any, options?: RequestInit) => Promise<void>;
   success: boolean;
 };
 

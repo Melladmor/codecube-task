@@ -1,15 +1,15 @@
 import { useState } from "react";
-import type { UsePostResult } from "./type";
+import type { UseApiResult } from "./type";
 
-export const usePost = <T,>(): UsePostResult<T> => {
-  const [loading, setLoading] = useState<boolean>(false);
+export const useApi = <T,>(): UseApiResult<T> => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<T | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [success, setSuccess] = useState(false);
 
-  const postData = async (
+  const request = async (
     url: string,
-    body: any,
+    body?: any,
     options: RequestInit = {}
   ): Promise<void> => {
     setLoading(true);
@@ -17,13 +17,18 @@ export const usePost = <T,>(): UsePostResult<T> => {
     setSuccess(false);
 
     try {
+      const method = options.method || "POST";
+
       const res = await fetch(`${import.meta.env.VITE_API_URL}/${url}`, {
-        method: options.method || "POST",
+        method,
         headers: {
           "Content-Type": "application/json",
           ...(options.headers || {}),
         },
-        body: JSON.stringify(body),
+        body:
+          method === "GET" || method === "DELETE"
+            ? undefined
+            : JSON.stringify(body),
         ...options,
       });
 
@@ -34,7 +39,8 @@ export const usePost = <T,>(): UsePostResult<T> => {
         );
       }
 
-      const result: T = await res.json();
+      // بعض الـ APIs بيرجع 204 (no content) خاصة بالـ DELETE
+      const result: T = res.status !== 204 ? await res.json() : (null as any);
       setData(result);
       setSuccess(true);
     } catch (err: any) {
@@ -45,5 +51,5 @@ export const usePost = <T,>(): UsePostResult<T> => {
     }
   };
 
-  return { loading, error, data, success, postData };
+  return { loading, error, data, success, request };
 };

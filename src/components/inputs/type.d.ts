@@ -3,7 +3,7 @@ import { ChangeEventHandler, Ref } from "react";
 export type InputT = {
   id?: string;
   name?: string;
-  value: string;
+  value: string | number;
   onChange: ChangeEventHandler<HTMLInputElement>;
   label?: string;
   type?: "text" | "password" | "number";

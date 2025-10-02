@@ -4,7 +4,8 @@ import TextAreaInput from "./TextAreaInput";
 import type { InputT, TextAreaT } from "./type";
 
 type FieldProps =
-  | ((InputT & { fieldType: "text" }) | { fieldType: "number" })
+  | (InputT & { fieldType: "text" })
+  | (InputT & { fieldType: "number" })
   | (InputT & { fieldType: "password" })
   | (TextAreaT & { fieldType: "textarea" });
 
