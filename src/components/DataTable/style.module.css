@@ -2,24 +2,17 @@
 .header_content {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: flex-start;
+  gap: 6px;
 }
 
 .sort_icon {
+  display: flex;
+  align-items: center;
   color: var(--color-text-muted);
-  font-size: 12px;
-}
-
-/* Data Row */
-.checkbox_cell {
-  width: 48px;
-  text-align: center;
-}
-
-.checkbox_cell input[type="checkbox"] {
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
+  font-size: 0.9rem;
+  line-height: 1;
+  margin-top: 1px;
 }
 
 /* Pagination */
@@ -56,12 +49,14 @@
   font-size: 13px;
   transition: all 0.2s;
   min-width: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pagination_controls button:hover:not(:disabled) {
-  background: var(--color-primary-start);
+  background: var(--shadow-primary);
   color: #fff;
-  border-color: var(--color-primary-end);
 }
 
 .pagination_controls button:disabled {
@@ -170,15 +165,6 @@
   border-radius: 4px;
 }
 
-.skeleton_checkbox {
-  width: 16px;
-  height: 16px;
-  background: #f0f0f0;
-  border-radius: 3px;
-  margin: 0 auto;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
 @keyframes shimmer {
   0% {
     background-position: 200% 0;
@@ -252,7 +238,7 @@
   gap: 8px;
   justify-content: center;
   align-items: center;
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
 }
 
 .action_button,

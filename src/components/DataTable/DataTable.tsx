@@ -1,9 +1,9 @@
 import {
   useMemo,
   useState,
-  useEffect,
   forwardRef,
   useImperativeHandle,
+  useEffect,
 } from "react";
 import type { DataGridProps, DataTableRef } from "./type";
 import { HeaderCell } from "./HeaderCell";
@@ -25,9 +25,7 @@ function DataTableInner<T extends { id: number | string }>(
     pageSize = 5,
     page,
     url,
-    checkboxSelection = false,
     onRowClick,
-    onSelectionChange,
     addAction,
     onDelete,
     onEdit,
@@ -44,11 +42,14 @@ function DataTableInner<T extends { id: number | string }>(
   const [sortField, setSortField] = useState<keyof T | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(page ? page : 1);
-  const [selectedRows, setSelectedRows] = useState<Set<number | string>>(
-    new Set()
-  );
 
   const totalPages = Math.ceil(tableData?.length / pageSize);
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const currentPageRows = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
@@ -82,33 +83,6 @@ function DataTableInner<T extends { id: number | string }>(
     }
   };
 
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setSelectedRows(new Set(paginatedRows.map((row) => row.id)));
-    } else {
-      setSelectedRows(new Set());
-    }
-  };
-
-  const handleSelectRow = (id: number | string) => {
-    const newSelected = new Set(selectedRows);
-    if (newSelected.has(id)) {
-      newSelected.delete(id);
-    } else {
-      newSelected.add(id);
-    }
-    setSelectedRows(newSelected);
-
-    if (onSelectionChange) {
-      const selected = tableData?.filter((row) => newSelected.has(row.id));
-      onSelectionChange(selected);
-    }
-  };
-
-  const allSelected =
-    paginatedRows.length > 0 &&
-    paginatedRows.every((row) => selectedRows.has(row.id));
-
   useImperativeHandle(
     ref,
     () => ({
@@ -140,15 +114,6 @@ function DataTableInner<T extends { id: number | string }>(
         <table className={style.data_grid}>
           <thead>
             <tr>
-              {checkboxSelection && (
-                <th className={style.checkbox_cell}>
-                  <input
-                    type="checkbox"
-                    checked={allSelected}
-                    onChange={handleSelectAll}
-                  />
-                </th>
-              )}
               {columns.map((column) => (
                 <HeaderCell
                   key={String(column.field)}
@@ -166,11 +131,7 @@ function DataTableInner<T extends { id: number | string }>(
           </thead>
           <tbody>
             {loading ? (
-              <SkeletonRow
-                columns={columns}
-                checkboxSelection={checkboxSelection}
-                rowCount={pageSize}
-              />
+              <SkeletonRow columns={columns} rowCount={pageSize} />
             ) : error ? (
               <ErrorData colSpan={columns?.length} onRetry={refetch} />
             ) : paginatedRows.length === 0 ? (
@@ -184,9 +145,6 @@ function DataTableInner<T extends { id: number | string }>(
                   key={row.id}
                   row={row}
                   columns={columns}
-                  isSelected={selectedRows.has(row.id)}
-                  checkboxSelection={checkboxSelection}
-                  onSelect={handleSelectRow}
                   onClick={onRowClick}
                   onDelete={onDelete}
                   onEdit={onEdit}

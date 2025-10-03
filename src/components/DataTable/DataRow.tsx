@@ -1,4 +1,3 @@
-// DataRow.tsx
 import { DataCell } from "./DataCell";
 import type { DataRowProps } from "./type";
 import style from "./style.module.css";
@@ -7,9 +6,6 @@ import { MdDelete, MdEdit } from "react-icons/md";
 export function DataRow<T extends { id: number | string }>({
   row,
   columns,
-  isSelected,
-  checkboxSelection,
-  onSelect,
   onClick,
   onEdit,
   onDelete,
@@ -18,10 +14,6 @@ export function DataRow<T extends { id: number | string }>({
 
   const handleRowClick = () => {
     if (onClick) onClick(row);
-  };
-
-  const handleCheckboxClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
   };
 
   const handleActionClick = (e: React.MouseEvent) => {
@@ -39,16 +31,7 @@ export function DataRow<T extends { id: number | string }>({
   };
 
   return (
-    <tr className={isSelected ? "selected" : ""} onClick={handleRowClick}>
-      {checkboxSelection && (
-        <td className={style.checkbox_cell} onClick={handleCheckboxClick}>
-          <input
-            type="checkbox"
-            checked={isSelected}
-            onChange={() => onSelect(row.id)}
-          />
-        </td>
-      )}
+    <tr onClick={handleRowClick}>
       {columns.map((column) => (
         <DataCell key={String(column.field)} column={column} row={row} />
       ))}

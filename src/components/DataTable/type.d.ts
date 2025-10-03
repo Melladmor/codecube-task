@@ -12,9 +12,7 @@ export interface DataGridProps<T = any> {
   pageSize?: number;
   page?: number;
   url?: string;
-  checkboxSelection?: boolean;
   onRowClick?: (row: T) => void;
-  onSelectionChange?: (selectedRows: T[]) => void;
   addAction?: () => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
@@ -43,9 +41,6 @@ export interface PaginationProps {
 export interface DataRowProps<T> {
   row: T & { id: number | string };
   columns: Column<T>[];
-  isSelected: boolean;
-  checkboxSelection: boolean;
-  onSelect: (id: number | string) => void;
   onClick?: (row: T) => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
@@ -53,7 +48,6 @@ export interface DataRowProps<T> {
 
 export interface SkeletonRowProps<T = any> {
   columns: Column<T>[];
-  checkboxSelection: boolean;
   rowCount?: number;
 }
 
