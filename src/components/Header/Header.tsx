@@ -3,6 +3,7 @@ import { getLocalStorageItem, removeLocalStorageItem } from "../../utils";
 import style from "./style.module.css";
 import { useToaster } from "../../context/ToasterProvider";
 import Button from "../Buttons/Button";
+import { MdOutlineLogout } from "react-icons/md";
 const Header = () => {
   const token = getLocalStorageItem<string>("token");
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Header = () => {
       </div>
       {token && (
         <Button type="button" onClick={logout} className={style.logout_btn}>
-          Logout
+          <MdOutlineLogout size={14} />
         </Button>
       )}
     </header>

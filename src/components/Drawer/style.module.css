@@ -130,3 +130,24 @@
   color: var(--color-link-hover);
   background: rgba(136, 211, 206, 0.1);
 }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .drawer {
+    min-width: 90vw;
+    max-width: 90vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .drawer {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .drawerTitle {
+    font-size: 1.25rem;
+  }
+  .drawerContent {
+    padding: 1rem;
+  }
+}

@@ -60,7 +60,7 @@ export const router = createBrowserRouter(
         })}
       </Route>
 
-      <Route path="*" element={<Error />} />
+      <Route path="*" element={<RouterWrapper route={<Error />} isPublic />} />
     </>
   )
 );

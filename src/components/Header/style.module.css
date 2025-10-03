@@ -43,12 +43,37 @@ header {
 }
 
 .logout_btn {
-  width: 100px !important;
-  padding: 0.5rem 1.25rem !important;
-  border-radius: 4rem !important;
+  width: fit-content !important;
+  height: 38px !important;
 }
 
-.logout_btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px var(--shadow-primary-hover);
+@media (max-width: 480px) {
+  header {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .logo_text {
+    font-size: 1.2rem;
+  }
+
+  .logo_icon {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .logout_btn {
+    height: 28px !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .logo_text {
+    font-size: 1.35rem;
+  }
+
+  .logout_btn {
+    height: 32px !important;
+  }
 }

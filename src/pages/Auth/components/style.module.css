@@ -16,6 +16,7 @@
   font-weight: 600;
   color: white;
 }
+
 .inputs_conatiner {
   display: flex;
   flex-direction: column;
@@ -24,4 +25,32 @@
 
 .form_button {
   margin-top: 1rem !important;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .login_container {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .login_title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .inputs_conatiner {
+    gap: 1rem;
+  }
+
+  .form_button {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .login_container {
+    max-width: 480px;
+  }
 }

@@ -152,12 +152,38 @@
   border-color: var(--color-border-light) !important;
 }
 
+/* Responsive */
 @media (max-width: 480px) {
+  .modal_container {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .modal_header {
+    padding: 16px;
+  }
+
+  .modal_title {
+    font-size: 18px;
+  }
+
+  .modal_content {
+    padding: 16px;
+  }
+
   .modal_footer {
     flex-direction: column-reverse;
+    padding: 16px;
   }
 
   .modal_btn {
     width: 100%;
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .modal_icon {
+    width: 56px;
+    height: 56px;
   }
 }

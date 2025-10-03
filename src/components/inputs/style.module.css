@@ -7,6 +7,7 @@
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: #b0b0b0;
+  font-size: 1rem;
 }
 
 .input_field {
@@ -31,19 +32,59 @@
 .input_field::placeholder {
   color: rgba(255, 255, 255, 0.3);
 }
+
 .error_input_field {
   color: rgb(144, 15, 15);
   font-weight: 400;
-  font-size: 12px;
+  font-size: 0.8rem;
   margin-top: 0.5rem;
 }
+
 .input_field_container {
   position: relative;
 }
+
 .input_field_eye {
   position: absolute;
   right: 0.75rem;
   top: 55%;
   transform: translateY(-50%);
   cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .input_group label {
+    font-size: 0.9rem;
+  }
+
+  .input_field {
+    font-size: 0.9rem;
+    padding: 0.65rem 0.85rem;
+  }
+
+  .error_input_field {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .input_group label {
+    font-size: 1rem;
+  }
+
+  .input_field {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .input_group label {
+    font-size: 1.05rem;
+  }
+
+  .input_field {
+    font-size: 1rem;
+    padding: 0.8rem 1.1rem;
+  }
 }

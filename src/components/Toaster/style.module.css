@@ -14,10 +14,12 @@
   color: white;
   font-weight: 500;
   min-width: 200px;
+  max-width: 320px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
   text-align: center;
   text-transform: capitalize;
+  word-wrap: break-word;
 }
 
 .success {
@@ -49,5 +51,23 @@
   to {
     opacity: 0;
     transform: translateX(50px);
+  }
+}
+
+@media (max-width: 480px) {
+  .toaster_container {
+    top: auto;
+    bottom: 1rem;
+    right: 50%;
+    transform: translateX(50%);
+    width: 90%;
+    max-width: none;
+  }
+
+  .toast {
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px;
+    padding: 0.75rem;
   }
 }
