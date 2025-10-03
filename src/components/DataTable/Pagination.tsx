@@ -1,10 +1,6 @@
 import type { PaginationProps } from "./type";
 import style from "./style.module.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import {
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
-} from "react-icons/md";
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
 export function Pagination({
   currentPage,

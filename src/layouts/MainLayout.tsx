@@ -1,9 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header/Header";
 
-type Props = {};
-
-const MainLayout = (props: Props) => {
+const MainLayout = () => {
   return (
     <div>
       <Header />

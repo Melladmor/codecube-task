@@ -7,7 +7,7 @@ import {
 import MainLayout from "../layouts/MainLayout";
 import { routes } from "./routes";
 import type { RoutesI } from "./type";
-import Error from "../components/Error";
+import Error from "../components/Error/Error";
 import RouterWrapper from "../wrappers/RouterWrapper";
 
 export const router = createBrowserRouter(
