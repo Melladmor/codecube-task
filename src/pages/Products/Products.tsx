@@ -96,7 +96,7 @@ const Products = () => {
         url="products"
         pageSize={8}
         page={1}
-        addAction={() => setIsAddOpen(true)}
+        addAction={hasPermission ? () => setIsAddOpen(true) : undefined}
         ref={tableRef}
         onDelete={
           hasPermission ? (row) => handleDeleteData(row?.id) : undefined
