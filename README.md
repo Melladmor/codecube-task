@@ -1,7 +1,20 @@
 ## Project Overview
 
-A modern interactive dashboard built with **React + Vite** for fast and lightweight data visualization.  
-The project provides a **customizable Dashboard** for displaying statistics, charts, and reports in a clean and scalable way.
+A modern interactive website built with React, Vite, and TypeScript, styled with pure CSS for a lightweight and fast experience.
+
+The project includes a Login page with validation and a Products table where users can:
+
+- Add products
+
+- Edit products
+
+- Delete products
+
+- Search products
+
+- Sort data
+
+- Pagination
 
 ---
 
