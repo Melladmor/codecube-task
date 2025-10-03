@@ -95,7 +95,9 @@
   flex: 1;
   min-width: 200px;
 }
-
+.search_field {
+  margin-bottom: 1rem;
+}
 .search_field button {
   flex: 0;
   min-width: 100px;
