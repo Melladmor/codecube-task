@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+## Project Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern interactive dashboard built with **React + Vite** for fast and lightweight data visualization.  
+The project provides a **customizable Dashboard** for displaying statistics, charts, and reports in a clean and scalable way.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- High performance powered by Vite
+- Reusable and modular components
+- Fully responsive design across all devices
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React
+- Vite
+- Yarn
+- Typescript
+- Css
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+To use the project, follow these instructions:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. Clone the repo
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+   ```sh
+   git clone https://github.com/Melladmor/codecube-task.git
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. Navigate into the project directory and install the dependencies using Yarn:
+
+   ```sh
+   cd codecube-task
+   ```
+
+   ```sh
+   yarn install
+   ```
+
+3. Create a copy of .env.example and rename it to .env
+
+   ```sh
+   cp .env.example .env
+   ```
+
+4. Run the React Application
+   ```sh
+   yarn dev
+   ```
+
+The app will run by default on: [http://localhost:5173](http://localhost:5173)
+
+5. Login Instructions
+
+- If you want to log as editor use:
+
+  ```sh
+  Username: editor
+  Password: Mellad@12345
+  ```
+
+- If you want to log as viewer use:
+
+  ```sh
+  Username: viewer
+  Password: Mellad@12345
+  ```
+
+---
+
+## Demo
+
+<a href="https://codecube-task.netlify.app/" target="_blank">Demo</a>
+
+---
+
+## Author
+
+- Mellad Morshed
+- <a href="https://melladmorshed.netlify.app/" target="_blank">Portfolio</a>
+
+---
